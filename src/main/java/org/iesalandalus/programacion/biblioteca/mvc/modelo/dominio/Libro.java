@@ -9,10 +9,7 @@ public abstract class Libro {
 	protected String autor;
 	
 
-	public static LibroEscrito getLibroFicticio(String titulo, String autor) {
-
-		return new LibroEscrito(titulo, autor, 10);
-	}
+	
 
 	public Libro(String titulo, String autor) {
 
@@ -26,6 +23,11 @@ public abstract class Libro {
 		}
 		titulo = libro.getTitulo();
 		autor = libro.getAutor();
+	}
+	
+	public static LibroEscrito getLibroFicticio(String titulo, String autor) {
+
+		return new LibroEscrito(titulo, autor, 10);
 	}
 	
 	public abstract float getPuntos();
@@ -75,7 +77,7 @@ public abstract class Libro {
 			return false;
 		}
 		LibroEscrito other = (LibroEscrito) obj;
-		return Objects.equals(autor, other.getAutor()) && Objects.equals(titulo, other.getTitulo());
+		return Objects.equals(autor, other.autor) && Objects.equals(titulo, other.titulo);
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 import java.util.Objects;
 import javax.naming.OperationNotSupportedException;
 
-public class LibroEscrito {
+public class LibroEscrito extends Libro {
 
 	private static final int PAGINAS_PARA_RECOMPENSA = 25;
 	private static final float PUNTOS_PREMIO = 0.5f;
@@ -11,18 +11,12 @@ public class LibroEscrito {
 
 	public LibroEscrito(String titulo, String autor, int numPaginas) {
 
-		setTitulo(titulo);
-		setAutor(autor);
+		super(titulo, autor);
 		setNumPaginas(numPaginas);
 	}
 
-	public LibroEscrito(LibroEscrito Libro) {
-
-		if (Libro == null) {
-			throw new NullPointerException("ERROR: No es posible copiar un libro nulo.");
-		}
-		titulo = libro.getTitulo();
-		autor = libro.getAutor();
+	public LibroEscrito(LibroEscrito libro) {
+		super(libro);
 		numPaginas = libro.getNumPaginas();
 	}
 
@@ -77,24 +71,18 @@ public class LibroEscrito {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(autor, titulo);
+		return super.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof LibroEscrito)) {
-			return false;
-		}
-		LibroEscrito other = (LibroEscrito) obj;
-		return Objects.equals(autor, other.autor) && Objects.equals(titulo, other.titulo);
+		
+		return super.equals(obj);
 	}
 
 	@Override
 	public String toString() {
-		return String.format("título=%s, autor=%s, número de páginas=%s", titulo, autor, numPaginas);
+		return String.format("%s, número de páginas=%d]", super.toString(), numPaginas);
 	}
 
 }
