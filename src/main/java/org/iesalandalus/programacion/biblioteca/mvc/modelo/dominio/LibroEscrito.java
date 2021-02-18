@@ -82,7 +82,7 @@ public class LibroEscrito extends Libro {
 
 	@Override
 	public String toString() {
-		return String.format("%s, número de páginas=%d]", super.toString(), numPaginas);
+		return String.format("%s, número de páginas=%d", super.toString(), numPaginas);
 	}
 
 }
