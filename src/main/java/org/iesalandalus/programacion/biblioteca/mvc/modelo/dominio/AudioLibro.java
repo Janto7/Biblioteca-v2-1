@@ -21,8 +21,6 @@ public class AudioLibro extends Libro {
 	}
 
 
-	
-
 	public String getAutor() {
 		return autor;
 	}
