@@ -2,34 +2,34 @@ package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 import java.util.Objects;
 import javax.naming.OperationNotSupportedException;
 
-public abstract class Libro {
+public class LibroEscrito {
 
-	
-	protected String titulo;
-	protected String autor;
-	
+	private static final int PAGINAS_PARA_RECOMPENSA = 25;
+	private static final float PUNTOS_PREMIO = 0.5f;
 
-	public static LibroEscrito getLibroFicticio(String titulo, String autor) {
+	private int numPaginas;
 
-		return new LibroEscrito(titulo, autor, 10);
-	}
-
-	public Libro(String titulo, String autor) {
+	public LibroEscrito(String titulo, String autor, int numPaginas) {
 
 		setTitulo(titulo);
 		setAutor(autor);
+		setNumPaginas(numPaginas);
 	}
-	
-	public Libro(Libro libro) {
-		if (libro == null) {
+
+	public LibroEscrito(LibroEscrito Libro) {
+
+		if (Libro == null) {
 			throw new NullPointerException("ERROR: No es posible copiar un libro nulo.");
 		}
 		titulo = libro.getTitulo();
 		autor = libro.getAutor();
+		numPaginas = libro.getNumPaginas();
 	}
-	
-	public abstract float getPuntos();
-	
+
+	public static LibroEscrito getLibroFicticio(String titulo, String autor) {
+
+		return new LibroEscrito(titulo, autor, 560);
+	}
 
 	public String getTitulo() {
 		return titulo;
@@ -45,7 +45,9 @@ public abstract class Libro {
 		this.titulo = titulo;
 	}
 
-	
+	public String getAutor() {
+		return autor;
+	}
 
 	private void setAutor(String autor) {
 		if (autor == null) {
@@ -56,9 +58,21 @@ public abstract class Libro {
 		}
 		this.autor = autor;
 	}
-	
-	public String getAutor() {
-		return autor;
+
+	public int getNumPaginas() {
+		return numPaginas;
+	}
+
+	private void setNumPaginas(int numPaginas) {
+		if (numPaginas <= 0) {
+			throw new IllegalArgumentException("ERROR: El número de páginas debe ser mayor que cero.");
+		}
+		this.numPaginas = numPaginas;
+	}
+
+	public float getPuntos() {
+
+		return 0.5f + (getNumPaginas()/ PAGINAS_PARA_RECOMPENSA) * PUNTOS_PREMIO ;
 	}
 
 	@Override
@@ -75,12 +89,12 @@ public abstract class Libro {
 			return false;
 		}
 		LibroEscrito other = (LibroEscrito) obj;
-		return Objects.equals(autor, other.getAutor()) && Objects.equals(titulo, other.getTitulo());
+		return Objects.equals(autor, other.autor) && Objects.equals(titulo, other.titulo);
 	}
 
 	@Override
 	public String toString() {
-		return String.format("título=%s, autor=%s", titulo, autor);
+		return String.format("título=%s, autor=%s, número de páginas=%s", titulo, autor, numPaginas);
 	}
 
 }
