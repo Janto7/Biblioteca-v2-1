@@ -29,29 +29,12 @@ public class LibroEscrito extends Libro {
 		return titulo;
 	}
 
-	private void setTitulo(String titulo) {
-		if (titulo == null) {
-			throw new NullPointerException("ERROR: El título no puede ser nulo.");
-		}
-		if (titulo.trim().equals("")) {
-			throw new IllegalArgumentException("ERROR: El título no puede estar vacío.");
-		}
-		this.titulo = titulo;
-	}
 
 	public String getAutor() {
 		return autor;
 	}
 
-	private void setAutor(String autor) {
-		if (autor == null) {
-			throw new NullPointerException("ERROR: El autor no puede ser nulo.");
-		}
-		if (autor.trim().equals("")) {
-			throw new IllegalArgumentException("ERROR: El autor no puede estar vacío.");
-		}
-		this.autor = autor;
-	}
+	
 
 	public int getNumPaginas() {
 		return numPaginas;
@@ -63,7 +46,8 @@ public class LibroEscrito extends Libro {
 		}
 		this.numPaginas = numPaginas;
 	}
-
+	
+	@Override
 	public float getPuntos() {
 
 		return 0.5f + (getNumPaginas()/ PAGINAS_PARA_RECOMPENSA) * PUNTOS_PREMIO ;

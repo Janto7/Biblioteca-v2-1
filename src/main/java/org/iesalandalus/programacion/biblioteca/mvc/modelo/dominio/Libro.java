@@ -73,10 +73,10 @@ public abstract class Libro {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof LibroEscrito)) {
+		if (!(obj instanceof Libro)) {
 			return false;
 		}
-		LibroEscrito other = (LibroEscrito) obj;
+		Libro other = (Libro) obj;
 		return Objects.equals(autor, other.autor) && Objects.equals(titulo, other.titulo);
 	}
 
