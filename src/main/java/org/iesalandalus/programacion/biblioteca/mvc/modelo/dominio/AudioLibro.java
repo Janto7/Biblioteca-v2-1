@@ -25,7 +25,7 @@ public class AudioLibro extends Libro {
 		return autor;
 	}
 
-	
+
 
 	public int getDuracion() {
 		return duracion;

@@ -20,10 +20,7 @@ public class LibroEscrito extends Libro {
 		numPaginas = libro.getNumPaginas();
 	}
 
-	public static LibroEscrito getLibroFicticio(String titulo, String autor) {
-
-		return new LibroEscrito(titulo, autor, 560);
-	}
+	
 
 	public String getTitulo() {
 		return titulo;

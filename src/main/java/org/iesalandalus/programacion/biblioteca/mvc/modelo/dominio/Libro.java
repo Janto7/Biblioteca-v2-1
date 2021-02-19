@@ -25,9 +25,9 @@ public abstract class Libro {
 		autor = libro.getAutor();
 	}
 	
-	public static LibroEscrito getLibroFicticio(String titulo, String autor) {
+	public static Libro getLibroFicticio(String titulo, String autor) {
 
-		return new LibroEscrito(titulo, autor, 10);
+		return new AudioLibro(titulo, autor, 10);
 	}
 	
 	public abstract float getPuntos();
