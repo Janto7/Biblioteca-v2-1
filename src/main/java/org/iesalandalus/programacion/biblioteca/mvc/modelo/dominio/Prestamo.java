@@ -9,40 +9,44 @@ public class Prestamo {
 
 	private static final int MAX_DIAS_PRESTAMO = 20;
 	public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-	private Alumno alumno;
-	private Libro libro;
 	private LocalDate fechaPrestamo;
 	private LocalDate fechaDevolucion;
+	private Alumno alumno;
+	private Libro libro;
 
-	public Prestamo(Alumno alumno, Libro libro, LocalDate fechaPrestamo) {
+	public Prestamo(Alumno alumno, Libro libro, LocalDate fechaPrestamo)
+	{
 		setAlumno(alumno);
 		setLibro(libro);
 		setFechaPrestamo(fechaPrestamo);
 	}
 
-	public Prestamo(Prestamo prestamo) {
-		if (prestamo == null) {
+	public Prestamo(Prestamo copiaPrestamo)
+	{
+		if (copiaPrestamo==null) {
 			throw new NullPointerException("ERROR: No es posible copiar un préstamo nulo.");
 		}
-		alumno = prestamo.getAlumno();
-		libro = prestamo.getLibro();
-		fechaPrestamo = prestamo.getFechaPrestamo();
-		fechaDevolucion = prestamo.getFechaDevolucion();
+		alumno = copiaPrestamo.getAlumno();
+		libro = copiaPrestamo.getLibro();
+		fechaPrestamo = copiaPrestamo.getFechaPrestamo();
+		fechaDevolucion = copiaPrestamo.getFechaDevolucion();
 	}
 
-	public static Prestamo getPrestamoFicticio(Alumno alumno, Libro libro) {
-		return new Prestamo(alumno, libro, LocalDate.now());
+	public static Prestamo getPrestamoFicticio(Alumno alumno, Libro libro)
+	{
+		return new Prestamo(alumno, libro, 	LocalDate.now());
 	}
 
-	public void devolver(LocalDate fechaDevolucion) {
-		if (this.fechaDevolucion != null) {
+	public void devolver(LocalDate fechaDevolucion)
+	{
+		if (getFechaDevolucion()!=null && getFechaDevolucion().equals(fechaDevolucion)) {
 			throw new IllegalArgumentException("ERROR: La devolución ya estaba registrada.");
 		}
 		setFechaDevolucion(fechaDevolucion);
 	}
 
-	public int getPuntos() {
+	public int getPuntos()
+	{
 		float puntos = 0f;
 		if (fechaDevolucion != null) {
 			int diasPrestamo = (int) ChronoUnit.DAYS.between(fechaPrestamo, fechaDevolucion);
@@ -55,11 +59,11 @@ public class Prestamo {
 	}
 
 	public Alumno getAlumno() {
-		return new Alumno(alumno);
+		return alumno;
 	}
 
 	private void setAlumno(Alumno alumno) {
-		if (alumno == null) {
+		if (alumno==null) {
 			throw new NullPointerException("ERROR: El alumno no puede ser nulo.");
 		}
 		this.alumno = new Alumno(alumno);
@@ -72,20 +76,18 @@ public class Prestamo {
 		} else if (this.libro instanceof AudioLibro) {
 			libro = new AudioLibro((AudioLibro)this.libro);
 		}
-		
 		return libro;
 	}
 
 	private void setLibro(Libro libro) {
-		if (libro == null) {
-			throw new  NullPointerException("ERROR: El libro no puede ser nulo.") ;
+		if (libro==null) {
+			throw new NullPointerException("ERROR: El libro no puede ser nulo.");
 		}
 		if (libro instanceof LibroEscrito) {
 			this.libro = new LibroEscrito((LibroEscrito)libro);
-		} else if (this.libro instanceof AudioLibro) {
+		} else if (libro instanceof AudioLibro) {
 			this.libro = new AudioLibro((AudioLibro)libro);
 		}
-		
 	}
 
 	public LocalDate getFechaPrestamo() {
@@ -93,7 +95,7 @@ public class Prestamo {
 	}
 
 	private void setFechaPrestamo(LocalDate fechaPrestamo) {
-		if (fechaPrestamo == null) {
+		if (fechaPrestamo==null) {
 			throw new NullPointerException("ERROR: La fecha de préstamo no puede ser nula.");
 		}
 		if (fechaPrestamo.isAfter(LocalDate.now())) {
@@ -107,15 +109,14 @@ public class Prestamo {
 	}
 
 	private void setFechaDevolucion(LocalDate fechaDevolucion) {
-		if (fechaDevolucion == null) {
+		if (fechaDevolucion==null) {
 			throw new NullPointerException("ERROR: La fecha de devolución no puede ser nula.");
-		}
-		if (fechaDevolucion.isBefore(fechaPrestamo) || fechaDevolucion.isEqual(fechaPrestamo)) {
-			throw new IllegalArgumentException(
-					"ERROR: La fecha de devolución debe ser posterior a la fecha de préstamo.");
 		}
 		if (fechaDevolucion.isAfter(LocalDate.now())) {
 			throw new IllegalArgumentException("ERROR: La fecha de devolución no puede ser futura.");
+		}
+		if (fechaDevolucion.isBefore(getFechaPrestamo())||fechaDevolucion.isEqual(getFechaPrestamo())) {
+			throw new IllegalArgumentException("ERROR: La fecha de devolución debe ser posterior a la fecha de préstamo.");
 		}
 		this.fechaDevolucion = fechaDevolucion;
 	}
@@ -139,15 +140,12 @@ public class Prestamo {
 
 	@Override
 	public String toString() {
-		String mensaje;
-		if (fechaDevolucion == null) {
-			mensaje = String.format("alumno=(%s), libro=(%s), fecha de préstamo=%s, puntos=%s", alumno, libro,
-					fechaPrestamo.format(FORMATO_FECHA), getPuntos());
-		} else {
-			mensaje = String.format("alumno=(%s), libro=(%s), fecha de préstamo=%s, fecha de devolución=%s, puntos=%s",
-					alumno, libro, fechaPrestamo.format(FORMATO_FECHA), fechaDevolucion.format(FORMATO_FECHA),
-					getPuntos());
+		if (fechaDevolucion==null) {
+			return String.format("alumno=(%s), libro=(%s), fecha de préstamo=%s, puntos=%d", alumno, libro, fechaPrestamo.format(Prestamo.FORMATO_FECHA), getPuntos());
 		}
-		return mensaje;
+		else {
+			return String.format("alumno=(%s), libro=(%s), fecha de préstamo=%s, fecha de devolución=%s, puntos=%d", alumno, libro, fechaPrestamo.format(Prestamo.FORMATO_FECHA), fechaDevolucion.format(Prestamo.FORMATO_FECHA), getPuntos());
+		}
 	}
+
 }

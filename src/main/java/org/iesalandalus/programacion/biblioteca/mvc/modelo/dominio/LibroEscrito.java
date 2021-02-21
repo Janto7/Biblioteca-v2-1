@@ -47,7 +47,7 @@ public class LibroEscrito extends Libro {
 	@Override
 	public float getPuntos() {
 
-		return 0.5f + (getNumPaginas()/ PAGINAS_PARA_RECOMPENSA) * PUNTOS_PREMIO ;
+		return  ((numPaginas / PAGINAS_PARA_RECOMPENSA) + 1) * PUNTOS_PREMIO ;
 	}
 
 	@Override
