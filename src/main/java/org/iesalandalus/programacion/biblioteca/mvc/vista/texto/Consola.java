@@ -64,21 +64,10 @@ public class Consola {
 		String titulo = Entrada.cadena();
 		System.out.print("Introduce el autor del libro: ");
 		String autor = Entrada.cadena();
-		System.out.print("Introduce el número de páginas: ");
-		int numPaginas = Entrada.entero();
-		return new LibroEscrito(titulo, autor, numPaginas);
-	}
-
-	public static Libro leerLibroFicticio() {
-		System.out.print("\nIntroduce el titulo del libro: ");
-		String titulo = Entrada.cadena();
-		System.out.print("Introduce el autor del libro: ");
-		String autor = Entrada.cadena();
 		int tipoLibro = 0;
 
-		while (tipoLibro < 1 || tipoLibro > 2);
-			
-		{
+		while (tipoLibro < 1 || tipoLibro > 2) {
+
 			System.out.print("Introduce el tipo de libro: [1.- Libro Escrito, 2.- Audio Libro] ");
 			tipoLibro = Entrada.entero();
 		}
@@ -93,6 +82,16 @@ public class Consola {
 			libro = new AudioLibro(titulo, autor, duracion);
 		}
 		return libro;
+	}
+
+	public static Libro leerLibroFicticio() {
+		System.out.print("\nIntroduce el titulo del libro: ");
+		String titulo = Entrada.cadena();
+		System.out.print("Introduce el autor del libro: ");
+		String autor = Entrada.cadena();
+		System.out.print("Introduce el número de páginas: ");
+		int numPaginas = Entrada.entero();
+		return new LibroEscrito(titulo, autor, numPaginas);
 	}
 
 	public static Prestamo leerPrestamo() {
