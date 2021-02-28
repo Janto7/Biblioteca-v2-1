@@ -1,38 +1,42 @@
 package org.iesalandalus.programacion.biblioteca.mvc.modelo;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 import javax.naming.OperationNotSupportedException;
 
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
-import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.Alumnos;
-import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.Prestamos;
-import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.Libros;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IAlumnos;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.ILibros;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IPrestamos;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 
-public class Modelo {
-
-	private static final int CAPACIDAD = 300;
-	private Alumnos alumnos;
-	private Prestamos prestamos;
-	private Libros libros;
+public class Modelo implements IModelo {
 	
-	public Modelo() {
-		alumnos = new Alumnos(CAPACIDAD);
-		libros = new Libros(CAPACIDAD);
-		prestamos = new Prestamos(CAPACIDAD);
-		
+	private IAlumnos alumnos;
+	private IPrestamos prestamos;
+	private ILibros libros;
+
+	public Modelo(IFuenteDatos fuenteDatos) {
+		alumnos = fuenteDatos.crearAlumnos();
+		prestamos = fuenteDatos.crearPrestamos();
+		libros = fuenteDatos.crearLibros();
 	}
-	
+
+	@Override
 	public void insertar(Alumno alumno) throws OperationNotSupportedException {
 		alumnos.insertar(alumno);
 	}
-	
+
+	@Override
 	public void insertar(Libro libro) throws OperationNotSupportedException {
 		libros.insertar(libro);
 	}
-	
+
+	@Override
 	public void prestar(Prestamo prestamo) throws OperationNotSupportedException {
 		if (prestamo==null) {
 			throw new NullPointerException("ERROR: No se puede prestar un préstamo nulo.");
@@ -47,70 +51,87 @@ public class Modelo {
 		}
 		prestamos.prestar(new Prestamo(alumno, libro, prestamo.getFechaPrestamo()));
 	}
-	
+
+	@Override
 	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException {
-		if (prestamo==null) {
-
-			throw new NullPointerException("ERROR: No se puede devolver un préstamo nulo.");
-		}
-		if (fechaDevolucion==null) {
-
-			throw new NullPointerException("ERROR: La fecha de devolución del prestamo no puede ser nula.");
-		}
 		prestamo = prestamos.buscar(prestamo);
-		if (prestamo==null) {
-	
+		if (prestamo == null) {
 			throw new OperationNotSupportedException("ERROR: No se puede devolver un préstamo no prestado.");
 		}
 		prestamos.devolver(prestamo, fechaDevolucion);
 	}
-	
+
+	@Override
 	public Alumno buscar(Alumno alumno) {
 		return alumnos.buscar(alumno);
 	}
-	
+
+	@Override
 	public Libro buscar(Libro libro) {
 		return libros.buscar(libro);
 	}
-	
+
+	@Override
 	public Prestamo buscar(Prestamo prestamo) {
 		return prestamos.buscar(prestamo);
 	}
-	
+
+	@Override
 	public void borrar(Alumno alumno) throws OperationNotSupportedException {
+		List<Prestamo> prestamosAlumno = prestamos.get(alumno);
+		for (Prestamo prestamo : prestamosAlumno) {
+			prestamos.borrar(prestamo);
+		}
 		alumnos.borrar(alumno);
 	}
-	
+
+	@Override
 	public void borrar(Libro libro) throws OperationNotSupportedException {
+		List<Prestamo> prestamosLibro = prestamos.get(libro);
+		for (Prestamo prestamo : prestamosLibro) {
+			prestamos.borrar(prestamo);
+		}
 		libros.borrar(libro);
 	}
-	
+
+	@Override
 	public void borrar(Prestamo prestamo) throws OperationNotSupportedException {
 		prestamos.borrar(prestamo);
 	}
 
-	public Alumno[] getAlumnos() {
+	@Override
+	public List<Alumno> getAlumnos() {
 		return alumnos.get();
 	}
-	
-	public Libro[] getLibros() {
+
+	@Override
+	public List<Libro> getLibros() {
 		return libros.get();
 	}
-	
-	public Prestamo[] getPrestamos() {
+
+	@Override
+	public List<Prestamo> getPrestamos() {
 		return prestamos.get();
 	}
-	
-	public Prestamo[] getPrestamos(Alumno alumno) {
+
+	@Override
+	public List<Prestamo> getPrestamos(Alumno alumno) {
 		return prestamos.get(alumno);
 	}
-	
-	public Prestamo[] getPrestamos(Libro libro) {
+
+	@Override
+	public List<Prestamo> getPrestamos(Libro libro) {
 		return prestamos.get(libro);
 	}
-	
-	public Prestamo[] getPrestamos(LocalDate fecha) {
-		return prestamos.get(fecha);
+
+	@Override
+	public List<Prestamo> getPrestamos(LocalDate fechaPrestamo) {
+		return prestamos.get(fechaPrestamo);
 	}
 	
+	@Override
+	public Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha) {
+		return prestamos.getEstadisticaMensualPorCurso(fecha);
+	}
+
 }
