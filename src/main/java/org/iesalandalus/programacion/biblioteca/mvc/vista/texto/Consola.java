@@ -76,8 +76,8 @@ public class Consola {
 		String autor = Entrada.cadena();
 		int tipoLibro = 0;
 
-		while (tipoLibro < 1 || tipoLibro > 2)
-			;
+		while (tipoLibro < 1 || tipoLibro > 2);
+			
 		{
 			System.out.print("Introduce el tipo de libro: [1.- Libro Escrito, 2.- Audio Libro] ");
 			tipoLibro = Entrada.entero();
