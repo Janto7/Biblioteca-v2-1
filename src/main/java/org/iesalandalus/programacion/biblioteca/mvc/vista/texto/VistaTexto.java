@@ -1,26 +1,32 @@
-package org.iesalandalus.programacion.biblioteca.mvc.vista;
+package org.iesalandalus.programacion.biblioteca.mvc.vista.texto;
+
+import java.util.List;
+import java.util.Map;
 
 import javax.naming.OperationNotSupportedException;
 
-import org.iesalandalus.programacion.biblioteca.mvc.controlador.Controlador;
+import org.iesalandalus.programacion.biblioteca.mvc.controlador.IControlador;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
+import org.iesalandalus.programacion.biblioteca.mvc.vista.IVista;
 
-public class Vista {
+public class VistaTexto implements IVista {
 
-	private Controlador controlador;
+	private IControlador controlador;
 
-	public Vista() {
+	public VistaTexto() {
 		Opcion.setVista(this);
 	}
 
-	public void setControlador(Controlador controlador) {
+	@Override
+	public void setControlador(IControlador controlador) {
 		this.controlador = controlador;
 	}
 
+	@Override
 	public void comenzar() {
-
 		int ordinalOpcion;
 		do {
 			Consola.mostrarMenu();
@@ -30,6 +36,7 @@ public class Vista {
 		} while (ordinalOpcion != Opcion.SALIR.ordinal());
 	}
 
+	@Override
 	public void terminar() {
 		controlador.terminar();
 	}
@@ -39,7 +46,7 @@ public class Vista {
 		try {
 			controlador.insertar(Consola.leerAlumno());
 			System.out.println("Alumno insertado correctamente.");
-		} catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e) {
+		} catch (OperationNotSupportedException | IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -51,7 +58,7 @@ public class Vista {
 			alumno = controlador.buscar(Consola.leerAlumnoFicticio());
 			String mensaje = (alumno != null) ? alumno.toString() : "No existe dicho alumno.";
 			System.out.println(mensaje);
-		} catch (IllegalArgumentException | NullPointerException e) {
+		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -61,22 +68,21 @@ public class Vista {
 		try {
 			controlador.borrar(Consola.leerAlumnoFicticio());
 			System.out.println("Alumno borrado satisfactoriamente.");
-		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+		} catch (OperationNotSupportedException | IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
 	public void listarAlumnos() {
-		Consola.mostrarCabecera("Listado de alumnos");
-		Alumno[] alumnos = controlador.getAlumnos();
-		if (alumnos[0] != null) {
+		Consola.mostrarCabecera("Listado de Alumnos");
+		List<Alumno> alumnos = controlador.getAlumnos();
+		if (!alumnos.isEmpty()) {
 			for (Alumno alumno : alumnos) {
-				if (alumno != null) {
+				if (alumno != null)
 					System.out.println(alumno);
-				}
 			}
 		} else {
-			System.out.println("No hay alumnos que mostrar.");
+			System.out.println("\nNo hay alumnos que mostrar.");
 		}
 	}
 
@@ -85,19 +91,18 @@ public class Vista {
 		try {
 			controlador.insertar(Consola.leerLibro());
 			System.out.println("Libro insertada correctamente.");
-		} catch (IllegalArgumentException | NullPointerException | OperationNotSupportedException e) {
+		} catch (OperationNotSupportedException | IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
 	public void buscarLibro() {
 		Consola.mostrarCabecera("Buscar Libro");
-		Libro libro;
 		try {
-			libro = controlador.buscar(Consola.leerLibro());
+			Libro libro = controlador.buscar(Consola.leerLibroFicticio());
 			String mensaje = (libro != null) ? libro.toString() : "No existe dicho libro.";
 			System.out.println(mensaje);
-		} catch (IllegalArgumentException | NullPointerException e) {
+		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -105,23 +110,23 @@ public class Vista {
 	public void borrarLibro() {
 		Consola.mostrarCabecera("Borrar Libro");
 		try {
-			controlador.borrar(Consola.leerLibro());
+			controlador.borrar(Consola.leerLibroFicticio());
 			System.out.println("Libro borrado satisfactoriamente.");
-		} catch (IllegalArgumentException | OperationNotSupportedException | NullPointerException e) {
+		} catch (OperationNotSupportedException | IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
 	public void listarLibros() {
-		Consola.mostrarCabecera("Listado de Aulas");
-		Libro[] libros = controlador.getLibros();
-		if (libros[0] != null) {
+		Consola.mostrarCabecera("Listado de Libros");
+		List<Libro> libros = controlador.getLibros();
+		if (!libros.isEmpty()) {
 			for (Libro libro : libros) {
 				if (libro != null)
 					System.out.println(libro);
 			}
 		} else {
-			System.out.println("No hay libros que mostrar.");
+			System.out.println("\nNo hay libros que mostrar.");
 		}
 	}
 
@@ -130,7 +135,7 @@ public class Vista {
 		try {
 			controlador.prestar(Consola.leerPrestamo());
 			System.out.println("Libro prestado satisfactoriamente.");
-		} catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e) {
+		} catch (OperationNotSupportedException | IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 	}
@@ -138,7 +143,8 @@ public class Vista {
 	public void devolverLibro() {
 		Consola.mostrarCabecera("Devolver Libro");
 		try {
-			controlador.devolver(Consola.leerPrestamo(), Consola.leerFecha("Introduce la fecha del prestamo: "));
+			controlador.devolver(Consola.leerPrestamoFicticio(),
+					Consola.leerFecha("Introduce la fecha del prestamo: "));
 			System.out.println("Libro devuelto satisfactoriamente.");
 		} catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e) {
 			System.out.println(e.getMessage());
@@ -150,7 +156,7 @@ public class Vista {
 		Prestamo prestamo;
 		try {
 			prestamo = controlador.buscar(Consola.leerPrestamoFicticio());
-			String mensaje = (prestamo != null) ? prestamo.toString() : "No existe dicho préstamo.";
+			String mensaje = (prestamo != null) ? prestamo.toString() : "No existe dicho prestamo.";
 			System.out.println(mensaje);
 		} catch (IllegalArgumentException | NullPointerException e) {
 			System.out.println(e.getMessage());
@@ -168,70 +174,79 @@ public class Vista {
 	}
 
 	public void listarPrestamos() {
-		Consola.mostrarCabecera("Listado de prestamos");
-		Prestamo[] prestamos = controlador.getPrestamos();
-		if (prestamos[0] != null) {
+		Consola.mostrarCabecera("Listado de Prestamos");
+		List<Prestamo> prestamos = controlador.getPrestamos();
+		if (!prestamos.isEmpty()) {
 			for (Prestamo prestamo : prestamos) {
-				if (prestamo != null) {
+				if (prestamo != null)
 					System.out.println(prestamo);
-				}
 			}
 		} else {
-			System.out.println("No hay prestamos que mostrar");
+			System.out.println("\nNo hay prestamos que mostrar.");
 		}
 	}
 
 	public void listarPrestamosAlumno() {
 		Consola.mostrarCabecera("Listado de Prestamos por Alumno");
 		try {
-			Prestamo[] prestamos = controlador.getPrestamos(Consola.leerAlumnoFicticio());
-			if (prestamos[0] != null) {
+			List<Prestamo> prestamos = controlador.getPrestamos(Consola.leerAlumnoFicticio());
+			if (!prestamos.isEmpty()) {
 				for (Prestamo prestamo : prestamos) {
-					if (prestamo != null) {
+					if (prestamo != null)
 						System.out.println(prestamo);
-					}
 				}
 			} else {
-				System.out.println("No hay prestamos que mostrar para dicho alumno");
+				System.out.println("No hay prestamos a mostrar para dicho alumno.");
 			}
-		} catch (NullPointerException | IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
 	public void listarPrestamosLibro() {
-		Consola.mostrarCabecera("Lista de prestamos por libro");
+		Consola.mostrarCabecera("Listado de Prestamos por Libro");
 		try {
-			Prestamo[] prestamos = controlador.getPrestamos(Consola.leerLibroFicticio());
-			if (prestamos[0] != null) {
+			List<Prestamo> prestamos = controlador.getPrestamos(Consola.leerLibroFicticio());
+			if (!prestamos.isEmpty()) {
 				for (Prestamo prestamo : prestamos) {
-					if (prestamo != null) {
+					if (prestamo != null)
 						System.out.println(prestamo);
-					}
 				}
 			} else {
-				System.out.println("No hay prestamos que mostrar para dicho libro");
+				System.out.println("No hay prestamos a mostrar para dicho libro.");
 			}
-		} catch (NullPointerException | IllegalArgumentException e) {
+		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 
 	public void listarPrestamosFecha() {
-		Consola.mostrarCabecera("Lista de prestamos por fecha");
+		Consola.mostrarCabecera("Listado de Prestamos por Fecha");
 		try {
-			Prestamo[] prestamos = controlador.getPrestamos(Consola.leerFecha("Introduce la fecha del prestamo: "));
-			if (prestamos[0] != null) {
+			List<Prestamo> prestamos = controlador.getPrestamos(Consola.leerFecha("Introduce la fecha del prestamo: "));
+			if (!prestamos.isEmpty()) {
 				for (Prestamo prestamo : prestamos) {
-					if (prestamo != null) {
+					if (prestamo != null)
 						System.out.println(prestamo);
-					}
 				}
 			} else {
-				System.out.println("No hay prestamos que mostrar para dicha fecha");
+				System.out.println("No hay prestamos para dicho Fecha.");
 			}
 		} catch (NullPointerException | IllegalArgumentException e) {
-			System.out.println(e.getMessage());
+
+			e.getMessage();
+		}
+	}
+
+	public void mostrarEstadisticaMensualPorCurso() {
+
+		Consola.mostrarCabecera("Estadistica mensual por curso");
+		try {
+			Map<Curso, Integer> estadisticasMensualesPorCurso = controlador
+					.getEstadisticaMensualPorCurso(Consola.leerFecha("Introduce la fecha: "));
+			System.out.println(estadisticasMensualesPorCurso);
+		} catch (NullPointerException | IllegalArgumentException e) {
+			e.getMessage();
 		}
 	}
 }
