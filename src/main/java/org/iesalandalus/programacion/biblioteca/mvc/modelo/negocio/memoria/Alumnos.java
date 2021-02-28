@@ -14,7 +14,7 @@ public class Alumnos implements IAlumnos {
 	private List<Alumno> coleccionAlumnos;
 
 	public Alumnos() {
-	
+
 		coleccionAlumnos = new ArrayList<>();
 	}
 
@@ -26,7 +26,7 @@ public class Alumnos implements IAlumnos {
 	}
 
 	private List<Alumno> copiaProfundaAlumnos() {
-	
+
 		List<Alumno> copiaAlumnos = new ArrayList<>();
 		for (Alumno alumno : coleccionAlumnos) {
 			copiaAlumnos.add(new Alumno(alumno));
@@ -44,12 +44,12 @@ public class Alumnos implements IAlumnos {
 		if (alumno == null) {
 			throw new NullPointerException("ERROR: No se puede insertar un alumno nulo.");
 		}
-		
+
 		if (!coleccionAlumnos.contains(alumno)) {
 			coleccionAlumnos.add(new Alumno(alumno));
 		} else {
 			throw new OperationNotSupportedException("ERROR: Ya existe un alumno con ese correo.");
-		}	
+		}
 	}
 
 	@Override

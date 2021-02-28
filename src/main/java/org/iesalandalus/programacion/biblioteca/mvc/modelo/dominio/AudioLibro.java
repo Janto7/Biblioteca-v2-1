@@ -1,7 +1,5 @@
 package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 
-
-
 public class AudioLibro extends Libro {
 
 	private static final int MINUTOS_PARA_RECOMPENSA = 15;
@@ -20,12 +18,9 @@ public class AudioLibro extends Libro {
 		duracion = libro.getDuracion();
 	}
 
-
 	public String getAutor() {
 		return autor;
 	}
-
-
 
 	public int getDuracion() {
 		return duracion;
@@ -37,11 +32,11 @@ public class AudioLibro extends Libro {
 		}
 		this.duracion = duracion;
 	}
-	
+
 	@Override
 	public float getPuntos() {
 
-		return ((duracion / MINUTOS_PARA_RECOMPENSA) + 1) * PUNTOS_PREMIO ;
+		return ((duracion / MINUTOS_PARA_RECOMPENSA) + 1) * PUNTOS_PREMIO;
 	}
 
 	@Override
@@ -51,7 +46,7 @@ public class AudioLibro extends Libro {
 
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		return super.equals(obj);
 	}
 

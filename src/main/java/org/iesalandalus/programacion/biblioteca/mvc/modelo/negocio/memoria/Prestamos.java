@@ -34,7 +34,7 @@ public class Prestamos implements IPrestamos {
 		List<Prestamo> copiaPrestamos = copiaProfundaPrestamos();
 		copiaPrestamos.sort(comparadorPrestamo);
 		return copiaPrestamos;
-		
+
 	}
 
 	private List<Prestamo> copiaProfundaPrestamos() {
@@ -52,7 +52,7 @@ public class Prestamos implements IPrestamos {
 
 	@Override
 	public List<Prestamo> get(Alumno alumno) {
-		if (alumno==null) {
+		if (alumno == null) {
 			throw new NullPointerException("ERROR: El alumno no puede ser nulo.");
 		}
 		List<Prestamo> prestamosAlumno = new ArrayList<>();
@@ -70,7 +70,7 @@ public class Prestamos implements IPrestamos {
 
 	@Override
 	public List<Prestamo> get(Libro libro) {
-		if (libro==null) {
+		if (libro == null) {
 			throw new NullPointerException("ERROR: El libro no puede ser nulo.");
 		}
 		List<Prestamo> prestamosLibro = new ArrayList<>();
@@ -88,7 +88,7 @@ public class Prestamos implements IPrestamos {
 
 	@Override
 	public List<Prestamo> get(LocalDate fecha) {
-		if (fecha==null) {
+		if (fecha == null) {
 			throw new NullPointerException("ERROR: La fecha no puede ser nula.");
 		}
 		List<Prestamo> prestamosMensuales = new ArrayList<>();
@@ -102,23 +102,24 @@ public class Prestamos implements IPrestamos {
 		Comparator<Prestamo> comparadorPrestamo = Comparator.comparing(Prestamo::getFechaPrestamo)
 				.thenComparing(Prestamo::getAlumno, comparadorAlumno)
 				.thenComparing(Prestamo::getLibro, comparadorLibro);
-		prestamosMensuales.sort(comparadorPrestamo);		
+		prestamosMensuales.sort(comparadorPrestamo);
 		return prestamosMensuales;
 	}
 
 	@Override
 	public Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha) {
-		Map<Curso, Integer>estadisticasMensualesPorCurso = inicializarEstadisticas();
+		Map<Curso, Integer> estadisticasMensualesPorCurso = inicializarEstadisticas();
 		List<Prestamo> prestamosMensuales = get(fecha);
 		for (Prestamo prestamo : prestamosMensuales) {
 			Curso cursoAlumno = prestamo.getAlumno().getCurso();
-			estadisticasMensualesPorCurso.put(cursoAlumno, estadisticasMensualesPorCurso.get(cursoAlumno) + prestamo.getPuntos());
+			estadisticasMensualesPorCurso.put(cursoAlumno,
+					estadisticasMensualesPorCurso.get(cursoAlumno) + prestamo.getPuntos());
 		}
 		return estadisticasMensualesPorCurso;
 	}
 
 	private Map<Curso, Integer> inicializarEstadisticas() {
-		Map<Curso, Integer>map = new EnumMap<>(Curso.class);
+		Map<Curso, Integer> map = new EnumMap<>(Curso.class);
 		for (Curso curso : Curso.values()) {
 			map.put(curso, 0);
 		}
@@ -129,7 +130,7 @@ public class Prestamos implements IPrestamos {
 		boolean fecha = false;
 		Month mes = fechaInicial.getMonth();
 		int anio = fechaInicial.getYear();
-		if (mes.equals(fechaFinal.getMonth()) && anio==fechaFinal.getYear()) {
+		if (mes.equals(fechaFinal.getMonth()) && anio == fechaFinal.getYear()) {
 			fecha = true;
 		}
 		return fecha;
@@ -153,7 +154,7 @@ public class Prestamos implements IPrestamos {
 		if (prestamo == null) {
 			throw new NullPointerException("ERROR: No se puede devolver un préstamo nulo.");
 		}
-		if (fechaDevolucion==null) {
+		if (fechaDevolucion == null) {
 			throw new NullPointerException("ERROR: La fecha no puede ser nula.");
 		}
 		int indice = coleccionPrestamos.indexOf(prestamo);
@@ -161,7 +162,7 @@ public class Prestamos implements IPrestamos {
 			throw new OperationNotSupportedException("ERROR: No existe ningún préstamo igual.");
 		} else {
 			coleccionPrestamos.get(indice).devolver(fechaDevolucion);
-		}	
+		}
 	}
 
 	@Override

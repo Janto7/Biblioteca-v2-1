@@ -2,8 +2,6 @@ package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 
 import java.util.Objects;
 
-
-
 public class Alumno {
 
 	private static final String ER_NOMBRE = "[a-zA-ZáéíóúÁÉÍÓÚÑñ]+(\\s+[a-zA-ZáéíóúÁÉÍÓÚÑñ]+)+";
@@ -19,11 +17,11 @@ public class Alumno {
 	}
 
 	public Alumno(Alumno alumno) {
-		if (alumno==null) {
+		if (alumno == null) {
 			throw new NullPointerException("ERROR: No es posible copiar un alumno nulo.");
 		}
 		setNombre(alumno.getNombre());
-	    setCorreo(alumno.getCorreo());
+		setCorreo(alumno.getCorreo());
 		setCurso(alumno.getCurso());
 	}
 
@@ -60,18 +58,18 @@ public class Alumno {
 		return correo;
 	}
 
-	private void setCorreo(String correo)  {
+	private void setCorreo(String correo) {
 		if (correo == null) {
 			throw new NullPointerException("ERROR: El correo no puede ser nulo.");
 		}
 		if (!correo.matches(ER_CORREO)) {
 			throw new IllegalArgumentException("ERROR: El formato del correo no es válido.");
-		
-	} else {
 
-		this.correo = correo;
+		} else {
+
+			this.correo = correo;
+		}
 	}
-}
 
 	private String getIniciales() {
 		String[] palabras = nombre.trim().split("\\s+");

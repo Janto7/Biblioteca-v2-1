@@ -243,7 +243,7 @@ public class VistaTexto implements IVista {
 		Consola.mostrarCabecera("Estadistica mensual por curso");
 		try {
 			Map<Curso, Integer> estadisticasMensualesPorCurso = controlador
-					.getEstadisticaMensualPorCurso(Consola.leerFecha("Introduce la fecha: "));
+					.getEstadisticaMensualPorCurso(Consola.leerFecha("Introduce la fecha para mostrar estadisticas: "));
 			System.out.println(estadisticasMensualesPorCurso);
 		} catch (NullPointerException | IllegalArgumentException e) {
 			e.getMessage();

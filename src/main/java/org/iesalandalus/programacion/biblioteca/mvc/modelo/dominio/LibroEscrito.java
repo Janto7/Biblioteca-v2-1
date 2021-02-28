@@ -1,4 +1,5 @@
 package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
+
 import java.util.Objects;
 import javax.naming.OperationNotSupportedException;
 
@@ -20,18 +21,13 @@ public class LibroEscrito extends Libro {
 		numPaginas = libro.getNumPaginas();
 	}
 
-	
-
 	public String getTitulo() {
 		return titulo;
 	}
 
-
 	public String getAutor() {
 		return autor;
 	}
-
-	
 
 	public int getNumPaginas() {
 		return numPaginas;
@@ -43,11 +39,11 @@ public class LibroEscrito extends Libro {
 		}
 		this.numPaginas = numPaginas;
 	}
-	
+
 	@Override
 	public float getPuntos() {
 
-		return  ((numPaginas / PAGINAS_PARA_RECOMPENSA) + 1) * PUNTOS_PREMIO ;
+		return ((numPaginas / PAGINAS_PARA_RECOMPENSA) + 1) * PUNTOS_PREMIO;
 	}
 
 	@Override
@@ -57,7 +53,7 @@ public class LibroEscrito extends Libro {
 
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		return super.equals(obj);
 	}
 

@@ -6,16 +6,15 @@ import javax.naming.OperationNotSupportedException;
 
 public abstract class Libro {
 
-	
 	protected String titulo;
 	protected String autor;
-	
+
 	public Libro(String titulo, String autor) {
 
 		setTitulo(titulo);
 		setAutor(autor);
 	}
-	
+
 	public Libro(Libro libro) {
 		if (libro == null) {
 			throw new NullPointerException("ERROR: No es posible copiar un libro nulo.");
@@ -23,14 +22,13 @@ public abstract class Libro {
 		titulo = libro.getTitulo();
 		autor = libro.getAutor();
 	}
-	
+
 	public static Libro getLibroFicticio(String titulo, String autor) {
 
 		return new AudioLibro(titulo, autor, 10);
 	}
-	
+
 	public abstract float getPuntos();
-	
 
 	public String getTitulo() {
 		return titulo;
@@ -46,8 +44,6 @@ public abstract class Libro {
 		this.titulo = titulo;
 	}
 
-	
-
 	private void setAutor(String autor) {
 		if (autor == null) {
 			throw new NullPointerException("ERROR: El autor no puede ser nulo.");
@@ -57,7 +53,7 @@ public abstract class Libro {
 		}
 		this.autor = autor;
 	}
-	
+
 	public String getAutor() {
 		return autor;
 	}

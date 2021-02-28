@@ -15,7 +15,7 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IPrestamos;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 
 public class Modelo implements IModelo {
-	
+
 	private IAlumnos alumnos;
 	private IPrestamos prestamos;
 	private ILibros libros;
@@ -38,15 +38,15 @@ public class Modelo implements IModelo {
 
 	@Override
 	public void prestar(Prestamo prestamo) throws OperationNotSupportedException {
-		if (prestamo==null) {
+		if (prestamo == null) {
 			throw new NullPointerException("ERROR: No se puede prestar un préstamo nulo.");
 		}
 		Alumno alumno = alumnos.buscar(prestamo.getAlumno());
-		if (alumno==null) {
+		if (alumno == null) {
 			throw new OperationNotSupportedException("ERROR: No existe el alumno del préstamo.");
 		}
 		Libro libro = libros.buscar(prestamo.getLibro());
-		if (libro==null) {
+		if (libro == null) {
 			throw new OperationNotSupportedException("ERROR: No existe el libro del préstamo.");
 		}
 		prestamos.prestar(new Prestamo(alumno, libro, prestamo.getFechaPrestamo()));
@@ -128,7 +128,7 @@ public class Modelo implements IModelo {
 	public List<Prestamo> getPrestamos(LocalDate fechaPrestamo) {
 		return prestamos.get(fechaPrestamo);
 	}
-	
+
 	@Override
 	public Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha) {
 		return prestamos.getEstadisticaMensualPorCurso(fecha);
