@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.biblioteca.mvc.vista;
+package org.iesalandalus.programacion.biblioteca.mvc.vista.texto;
 
 public enum Opcion {
 
@@ -82,39 +82,44 @@ public enum Opcion {
 			vista.listarPrestamosFecha();
 		}
 	},
+	MOSTRAR_ESTADISTICA_MENSUAL_POR_CURSO("Mostrar estadistica mensual por curso") {
+		public void ejecutar() {
+			vista.mostrarEstadisticaMensualPorCurso();
+		}
+	},
 	SALIR("Salir") {
 		public void ejecutar() {
 			vista.terminar();
 		}
 	};
-	
+
 	private String mensaje;
-	private static Vista vista;
-	
+	private static VistaTexto vista;
+
 	private Opcion(String mensaje) {
 		this.mensaje = mensaje;
 	}
-	
+
 	public abstract void ejecutar();
-	
-	protected static void setVista(Vista vista) {
+
+	protected static void setVista(VistaTexto vista) {
 		Opcion.vista = vista;
 	}
-	
+
 	public static Opcion getOpcionSegunOridnal(int ordinal) {
 		if (esOrdinalValido(ordinal))
 			return values()[ordinal];
 		else
 			throw new IllegalArgumentException("Ordinal de la opción no válido");
 	}
-	
+
 	public static boolean esOrdinalValido(int ordinal) {
 		return (ordinal >= 0 && ordinal <= values().length - 1);
 	}
-		
+
 	@Override
 	public String toString() {
 		return String.format("%d.- %s", ordinal(), mensaje);
 	}
-	
+
 }
